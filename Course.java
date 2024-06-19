@@ -13,6 +13,7 @@ public class Course {
         this.type = type;
         this.semester = semester;
         this.labels = labels;
+        this.ECTS = ECTS;
         this.lecturer = lecturer;
     }
 }

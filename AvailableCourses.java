@@ -7,6 +7,13 @@ import java.util.HashMap;
 public class AvailableCourses{
     ArrayList <Course> courses;
     HashMap<String, ArrayList<Course>>coursesByTypes;
+    HashMap<String, ArrayList<Course>>coursesByLabels;
+
+    AvailableCourses(){
+        initializeCourses();
+        initializeCoursesByTypes();
+        initializeCoursesByLabels();
+    }
 
     private Course generateCourse(String line){
         ArrayList<String> content = new ArrayList<String>();
@@ -23,7 +30,7 @@ public class AvailableCourses{
         }
         String name = content.get(0);
         String type = content.get(1);
-        int ECTS = (int)((float)Float.valueOf(content.get(2)));
+        int ECTS = (int)((float)Float.valueOf(content.get(2))); //COS NIE DZIALA :(
         String semester = content.get(3);
         String concatLabels = content.get(4);
         String lecturer = content.get(5);
@@ -79,8 +86,20 @@ public class AvailableCourses{
         }
     }
 
-    public void initializeFromFile(){
-        initializeCourses();
-        initializeCoursesByTypes();
+    private void initializeCoursesByLabels(){
+        this.coursesByLabels = new HashMap<String, ArrayList<Course>>();
+        for(Course c: courses){
+            for(String l: c.labels){
+                ArrayList<Course> tmp;
+                if(coursesByLabels.containsKey(l)){
+                    tmp = coursesByLabels.get(l);
+                }
+                else{
+                    tmp = new ArrayList<Course>();
+                }
+                tmp.add(c);
+                coursesByLabels.put(l, tmp);
+            }
+        }
     }
 }
