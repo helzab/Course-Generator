@@ -7,4 +7,12 @@ public class Course {
     public String semester;
     public ArrayList<String> labels;
     public String lecturer;
+
+    public Course(String name, String type, int ECTS, String semester, ArrayList<String>labels, String lecturer){
+        this.name = name;
+        this.type = type;
+        this.semester = semester;
+        this.labels = labels;
+        this.lecturer = lecturer;
+    }
 }
