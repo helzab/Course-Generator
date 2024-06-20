@@ -164,6 +164,7 @@ public class CoursePath{
         2) losujemy przemioty o TAGU!! (label) "E"; do sprawdzania czy wymagania sa juz spelnione jest metoda
         Engineer.checkEctsForE
         */
+        if(student.degree.equals("Bachelor")) return;
         while(!requirements.checkEctsForE(currentCourses))
             generatePerLabel("E");
     }
@@ -263,6 +264,10 @@ public class CoursePath{
         }while(!similarLengthOfSemester()); 
 
         addCompulsoryCourses();
+
+        // for(Course c:currentCourses){
+        //     System.out.println(c.name);
+        // }
 
         for(int i=0; i<coursesPerSemester.size(); i++){
             System.out.println("SEMESTR: "+(i+1));
