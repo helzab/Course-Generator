@@ -6,9 +6,8 @@ public class CoursePath{
     /* wazna kwestia do pamietania -> podzial przedmiotow na letnie i zimowe - przy losowaniu
     warto ogarnac zeby po rowno bylo z zimowych i letnich czy cos, zeby przy podziale nie bylo
     nagle 234 na semach zimowych a 2 na semach letnich */
-    ArrayList<ArrayList<Course>> coursesPerSemester = new ArrayList<ArrayList<Course>>();
+    ArrayList<ArrayList<Course>> coursesPerSemester;
     ArrayList<Course>currentCourses = new ArrayList<Course>();
-    String degree = new String();
     AvailableCourses allCourses = new AvailableCourses();
     DegreeRequirements requirements;
     Student student;
@@ -188,9 +187,32 @@ public class CoursePath{
         divIntoSemesters();
     }
 
-    public void splitListIntoEqSegments(ArrayList<Course> arrlst, int n){
+    public ArrayList<ArrayList<Course>> splitListIntoEqSegments(ArrayList<Course> arrlst, int n){
+        int arrLen = arrlst.size();
         int segLen = (arrlst.size())/n;
-        System.out.println(arrlst.size(), n, segLen);
+        System.out.println(arrlst.size() + " "+ n+ " " + segLen);
+        int l = 0, r = segLen;
+        ArrayList<ArrayList<Course>> dividedList = new ArrayList<ArrayList<Course>>();
+
+        int segCount = 0;
+
+        while(segCount < n-1){
+            ArrayList<Course> curSegment = new ArrayList<Course>(arrlst.subList(l, (Math.min(arrLen, r))));
+            dividedList.add(curSegment);
+            l += segLen;
+            r += segLen;
+            segCount++;
+        }
+        ArrayList<Course> curSegment = new ArrayList<Course>(arrlst.subList(l, arrLen));
+        dividedList.add(curSegment);
+
+        // for(ArrayList<Course> arrc: dividedList){
+        //     System.out.println("DIV");
+        //     for(Course c:arrc){
+        //         System.out.println(c.name);
+        //     }
+        // }
+        return dividedList;
     }
     
     public void divIntoSemesters(){
@@ -203,7 +225,34 @@ public class CoursePath{
         }
         System.out.println(summerCourses.size() + " " +winterCourses.size() + " " + currentCourses.size());
 
-        splitListIntoEqSegments(summerCourses, 3);
+        ArrayList<ArrayList<Course>> splitSummerCourses = splitListIntoEqSegments(summerCourses, 3);
+        
+        int numberOfWinterSemesters;
+        if(student.degree.equals("Engineer")) numberOfWinterSemesters = 4;
+        else numberOfWinterSemesters = 3;
+        
+        ArrayList<ArrayList<Course>> splitWinterCourses = splitListIntoEqSegments(winterCourses, numberOfWinterSemesters);
+        
+        coursesPerSemester = new ArrayList<ArrayList<Course>>(){{
+            add(splitSummerCourses.get(0));
+            add(splitWinterCourses.get(0));
+            add(splitSummerCourses.get(1));
+            add(splitWinterCourses.get(1));
+            add(splitSummerCourses.get(2));
+            add(splitWinterCourses.get(2));
+            }
+        };
+
+        if (numberOfWinterSemesters == 4)
+            coursesPerSemester.add(splitWinterCourses.get(3));
+        
+        for(int i=0; i<coursesPerSemester.size(); i++){
+            System.out.println("SEMESTR: "+i);
+            for(Course c:coursesPerSemester.get(i)){
+                System.out.println(c.name);
+            }
+        }
+
         // jezeli Degree = Engineer -> dzielimy na 7 semestrow, a jezeli Degree = Bachelor to na 6
         //Engineer - 4 zimowe, 3 letnie
         //Bachelor - 3 zimowe, 3 letnie
