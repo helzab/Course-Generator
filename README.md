@@ -1,4 +1,12 @@
 # Projekt-PO
+
+Instrukcja obslugi:
+
+javac Main.java
+java Main
+
+Po wykonaniu komend nalezy wpisac swoje imię, nazwisko i pozadany tytul("Engineer" lub "Bachelor")
+
 Spis klas:
 1. Student
 2. Course
