@@ -103,9 +103,20 @@ public class DegreeRequirements {
         return proseminary;
     }
 
+    public boolean checkForProject(ArrayList<Course> courses){
+        boolean project = false;
+        for(Course course : courses){
+            if(course.type == "P"){
+                project = true;
+            }
+        }
+        return project;
+    }
+
     public boolean checkAllRequirements(ArrayList <Course> courses){
         // tu moge jeszce dodac boole dla kazdego z obowiazkow i sprawdzic czy na tej liscie wystepuje juz kazdy z nich
         // ale nwm czy w tym momencie chcesz juz dodac na liste przedmiotow obowiazki czy to pozniej ykwim
-        return checkEctsForI(courses) && checkSumOfOIKP(courses) && checkSumOfOIKP(courses) && checkEctsForHS(courses);
+        return checkEctsForI(courses) && checkSumOfOIKP(courses) && checkSumOfOIKP(courses) && checkEctsForHS(courses) && checkForProseminary(courses)
+        && checkForProject(courses);
     }
 }

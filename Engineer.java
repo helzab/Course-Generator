@@ -19,7 +19,7 @@ public class Engineer extends DegreeRequirements{
         // BEZ OBOWIAZKOW tak jak sie umawialysmy !!
         int sumOfEcts = 0;
         for(Course course : courses){
-            if(course.type == "K1" || course.type == "K2" || course.type == "P" || course.type == "I1"){
+            if(course.type == "K1" || course.type == "K2" || course.type == "P" || course.type == "I1" || course.type == "KI" || course.type == "I.Inż"){
                 sumOfEcts += course.ECTS;
             }
         }
