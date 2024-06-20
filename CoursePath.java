@@ -3,9 +3,6 @@ import java.util.Random;
 import java.util.Collections;
 
 public class CoursePath{
-    /* wazna kwestia do pamietania -> podzial przedmiotow na letnie i zimowe - przy losowaniu
-    warto ogarnac zeby po rowno bylo z zimowych i letnich czy cos, zeby przy podziale nie bylo
-    nagle 234 na semach zimowych a 2 na semach letnich */
     ArrayList<ArrayList<Course>> coursesPerSemester;
     ArrayList<Course>currentCourses = new ArrayList<Course>();
     AvailableCourses allCourses = new AvailableCourses();
@@ -47,7 +44,7 @@ public class CoursePath{
         currentCourses.add(c);
     }
 
-    private void generateHumanistic(){ //DZIALA
+    private void generateHumanistic(){
         while(!requirements.checkEctsForHS(currentCourses)){
             generatePerType("HS");
         }
@@ -84,24 +81,6 @@ public class CoursePath{
                 generatePerType("I.Inż");
 
         generateOIKP();
-
-        
-        /* w tej klasie generujemy sobie przedmioty po typach (czyli np. I1, K1, K2 itd) 
-        chcemy zrobic 2 rzeczy: 
-        1) losowanie samych przedmiotow I -> 
-            a) Degree = Bachelor -> losujesz sb przedmioty o typie "I1"; do sprawdzania czy zgadzaja sie juz wymagania
-            masz metode Bachelor.checkEctsForI (Bachelor powinien normalnie dziedziczyc metody po DegreeReq.)
-            b) Degree = Enginner -> robisz to samo co wyzej i DODATKOWO osobno losujesz przedmioty o typie "I.Inż"; 
-            do sprawdzania czy zgadzaja sie wymagania dotyczace I.Inż masz metode Engineer.checkEctsForIEng
-        2) losowanie przedmiotow O I K P (my sie umowilysmy ze bez O (o = obowiazek)) ->
-            a) Degree = Bachelor -> losujesz sb przedmioty o typie "K1", "K2", "P", "I1"; do sprawdzania czy
-            zgadzaja sie wymagania masz metode Bachelor.checkSumOfOIKP
-            b) Degree = Engineer -> losujesz przedmioty o typie "K1", "K2", "KI", "P", "I1", "I.Inż";
-            do sprawdzania wymagan masz metode Engineer.checkSumOfOIKP (zmienia sie prog + zestaw do losowania)
-
-            jak zrobilas taka zajebibi fukncje jak checkIfSelected to ona sie tutaj swietnie przyda, zeby nie losowac
-            20 razy tego samego I1 np. TAKZE SUPER
-        */
     }
 
     private void generateEngCourses(){
@@ -109,23 +88,9 @@ public class CoursePath{
 
         while(!requirements.checkEctsForKI(currentCourses))
             generatePerType("KI");
-
-        /* nazwa jest przykladowa
-        1) to jest metoda ktorej uzywamy jak Degree = Engineer
-        2) w niej na poczatku sprawdzamy sobie czy zgadzaja sie wymagania dot. kursow inzynierskich; 
-        do tego jest metoda Engineer.checkEctsForKI -> 
-            a) Engineer.checkEctsForKI zwraca falsz -> losujemy przedmioty o typie "KI" dopoki wymagania nie beda
-            spelnione
-            b) Engineer.checkEctsForKI zwraca prawde -> nic nie robimy, chillujemy bombe (to znaczy, ze w generatePerType udalo nam sie juz wylosowac odpowiednia ilosc kursow inzynierskich)
-        */
     }
 
     private void generateForLabels(){
-        /* do sprawdzania czy zgadzaja sie wymagania zwiazane z tagami masz metode DegreeRequirements.checkLabels
-        i mozesz ja uzyc w while do ktorego wsadzisz fora (generujemy po labelsach dopoki wymaganie nie bedzie
-        spelnione)
-        dodam ze korzystamy z DegreeRequirements bo wymaganie nie rozni sie na Bachelora i Engineera
-        */
         ArrayList<String> labels = new ArrayList<String>(){
             {
                 add("RPiS");
@@ -142,16 +107,11 @@ public class CoursePath{
     }
 
     private void generateProject(){
-        /*poniewaz w generatePerType losowalysmy sobie przedmioty I, K, P to jest duza szansa, ze
-        projekt (P) zostal juz wylosowany, takze tutaj mozemy najpierw uzyc metody DegreeRequirements.checkForProject
-        i jak zwroci ci prawde tzn ze projekt juz jest czyli nic nie musisz robic hasta la vista bomba
-        */
         while(!requirements.checkForProject(currentCourses))
             generatePerType("P");
     }
 
     private void generateProseminar(){
-        // to jest gicior
         Random random = new Random();
         ArrayList<Course> allProseminars = allCourses.coursesByTypes.get("PS");
         int proseminarIndex = random.nextInt(allProseminars.size());
@@ -159,11 +119,6 @@ public class CoursePath{
     }
 
     private void generateE(){
-        /* znowu, to jest przykladowa nazwa
-        1) tej metody uzywamy jak Degree = Engineer
-        2) losujemy przemioty o TAGU!! (label) "E"; do sprawdzania czy wymagania sa juz spelnione jest metoda
-        Engineer.checkEctsForE
-        */
         if(student.degree.equals("Bachelor")) return;
         while(!requirements.checkEctsForE(currentCourses))
             generatePerLabel("E");
@@ -219,10 +174,6 @@ public class CoursePath{
 
         if (numberOfWinterSemesters == 4)
             coursesPerSemester.add(splitWinterCourses.get(3));
-
-        // jezeli Degree = Engineer -> dzielimy na 7 semestrow, a jezeli Degree = Bachelor to na 6
-        //Engineer - 4 zimowe, 3 letnie
-        //Bachelor - 3 zimowe, 3 letnie
     }
     
     private boolean similarLengthOfSemester(){
@@ -264,17 +215,6 @@ public class CoursePath{
         }while(!similarLengthOfSemester()); 
 
         addCompulsoryCourses();
-
-        // for(Course c:currentCourses){
-        //     System.out.println(c.name);
-        // }
-
-        for(int i=0; i<coursesPerSemester.size(); i++){
-            System.out.println("SEMESTR: "+(i+1));
-            for(Course c:coursesPerSemester.get(i)){
-                System.out.println(c.name);
-            }
-        }
 
     }
 } 

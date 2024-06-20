@@ -8,6 +8,7 @@ Spis klas:
 6. Engineer
 7. CoursePath
 8. Display
+9. Main
 
 dodatkowo:
 + tabela w Excelu zawierająca spis przedmiotów wraz z informacjami o nich
@@ -114,4 +115,14 @@ Opis klas:
 
 
 8) Display
-(...)
+    Klasa wypisująca dane studenta oraz wygenerowaną dla niego ściezke (w zaleznosci od wybranego tytulu).
+    Zmienne:
+    - courseList: wygenerowana sciezka przedmiotow
+    Metody:
+    - studentInfo: wypisuje informacje podane przez studenta
+    - viewCoursePath: wypisuje sciezke przedmiotow (podzielana na semestry) wraz z prowadzacymi; zoltym kolorem zaznaczone sa przedmioty obowiazkowe
+    - print: wywoluje powyzsze dwie metody
+
+9) Main
+    Klasa wczytująca dane od uzytkownika i wywołująca metodę print() z Display.
+    wazna informacja: jako poządany tytuł nalezy podac "Engineer" lub "Bachelor" !!!
