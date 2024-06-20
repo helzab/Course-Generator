@@ -8,10 +8,10 @@ public class Course {
     public ArrayList<String> labels;
     public String lecturer;
 
-    public Course(String name, String type, int ECTS, String semester, ArrayList<String>labels, String lecturer){
+    public Course(String name, String type, int ECTS, String s, ArrayList<String>labels, String lecturer){
         this.name = name;
         this.type = type;
-        this.semester = semester;
+        this.semester = s;
         this.labels = labels;
         this.ECTS = ECTS;
         this.lecturer = lecturer;

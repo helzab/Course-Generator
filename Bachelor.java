@@ -1,4 +1,4 @@
-public class Bachelor {
+public class Bachelor extends DegreeRequirements{
     public boolean indvProject;
 
     public Bachelor(){

@@ -19,7 +19,7 @@ public class Engineer extends DegreeRequirements{
         // BEZ OBOWIAZKOW tak jak sie umawialysmy !!
         int sumOfEcts = 0;
         for(Course course : courses){
-            if(course.type == "K1" || course.type == "K2" || course.type == "P" || course.type == "I1" || course.type == "KI" || course.type == "I.Inż"){
+            if(course.type.equals("K1") || course.type.equals("K2") || course.type.equals("P") || course.type.equals("I1") || course.type.equals("KI") || course.type.equals("I.Inż")){
                 sumOfEcts += course.ECTS;
             }
         }
@@ -37,7 +37,7 @@ public class Engineer extends DegreeRequirements{
         boolean BD = false;
         for(Course course : courses){
             //zwiekszona pula przedmiotow
-            if(course.type == "I1" || course.type == "K1" || course.type == "K2" || course.type == "I.Inż" || course.type == "KI"){
+            if(course.type.equals("I1") || course.type.equals("K1") || course.type.equals("K2") || course.type.equals("I.Inż") || course.type.equals("KI")){
                 if(course.labels.contains("RPiS")){
                     sumOfEcts += course.ECTS;
                     RPiS = true;
@@ -72,26 +72,29 @@ public class Engineer extends DegreeRequirements{
         return RPiS && IO && ASK && PiPO && SO && SY && BD && sumOfEcts >= this.sumOfLabels;
     }
 
+    @Override 
     public boolean checkEctsForIEng(ArrayList<Course> courses){
         int sumOfEcts = 0;
         for(Course course : courses){
-            if(course.type == "I.Inż"){
+            if(course.type.equals("I.Inż")){
                 sumOfEcts += course.ECTS;
             }
         }
         return sumOfEcts >= this.ectsForIEng;
     }    
 
+    @Override
     public boolean checkEctsForKI(ArrayList<Course> courses){
         int sumOfEcts = 0;
         for(Course course : courses){
-            if(course.type == "KI"){
+            if(course.type.equals("KI")){
                 sumOfEcts += course.ECTS;
             }
         }
         return sumOfEcts >= this.ectsForKI;
     }
 
+    @Override
     public boolean checkEctsForE(ArrayList<Course> courses){
         int sumOfEcts = 0;
         for(Course course : courses){

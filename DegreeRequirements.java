@@ -19,7 +19,7 @@ public class DegreeRequirements {
     public boolean checkEctsForI(ArrayList<Course> courses){
         int sumOfEcts = 0;
         for(Course course : courses){
-            if(course.type == "I1"){
+            if(course.type.equals("I1")){
                 sumOfEcts += course.ECTS;
             }
         }
@@ -27,10 +27,10 @@ public class DegreeRequirements {
     }
 
     public boolean checkSumOfOIKP(ArrayList<Course> courses){
-        // BEZ OBOWIAZKOW tak jak sie umawialysmy !!
+        // BEZ OBOWIAZKOW tak jak sie umawialysmy !! 
         int sumOfEcts = 0;
         for(Course course : courses){
-            if(course.type == "K1" || course.type == "K2" || course.type == "P" || course.type == "I1"){
+            if(course.type.equals("K1") || course.type.equals("K2") || course.type.equals("P") || course.type.equals("I1")){
                 sumOfEcts += course.ECTS;
             }
         }
@@ -48,7 +48,7 @@ public class DegreeRequirements {
         boolean SY = false;
         boolean BD = false;
         for(Course course : courses){
-            if(course.type == "I1" || course.type == "K1" || course.type == "K2"){
+            if(course.type.equals("I1") || course.type.equals("K1") || course.type.equals("K2")){
                 if(course.labels.contains("RPiS")){
                     sumOfEcts += course.ECTS;
                     RPiS = true;
@@ -86,7 +86,7 @@ public class DegreeRequirements {
     public boolean checkEctsForHS(ArrayList<Course> courses){
         int sumOfEcts = 0;
         for(Course course : courses){
-            if(course.type == "HS"){
+            if(course.type.equals("HS")){
                 sumOfEcts += course.ECTS;
             }
         }
@@ -96,7 +96,7 @@ public class DegreeRequirements {
     public boolean checkForProseminary(ArrayList<Course> courses){
         boolean proseminary = false;
         for(Course course : courses){
-            if(course.type == "PS"){
+            if(course.type.equals("PS")){
                 proseminary = true;
             }
         }
@@ -106,7 +106,7 @@ public class DegreeRequirements {
     public boolean checkForProject(ArrayList<Course> courses){
         boolean project = false;
         for(Course course : courses){
-            if(course.type == "P"){
+            if(course.type.equals("P")){
                 project = true;
             }
         }
@@ -119,4 +119,8 @@ public class DegreeRequirements {
         return checkEctsForI(courses) && checkSumOfOIKP(courses) && checkSumOfOIKP(courses) && checkEctsForHS(courses) && checkForProseminary(courses)
         && checkForProject(courses);
     }
+
+    public boolean checkEctsForIEng(ArrayList<Course> c){return false;}
+    public boolean checkEctsForKI(ArrayList<Course> c){return false;}
+    public boolean checkEctsForE(ArrayList<Course> courses){return false;}
 }

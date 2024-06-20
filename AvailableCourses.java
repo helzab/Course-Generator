@@ -30,7 +30,7 @@ public class AvailableCourses{
         }
         String name = content.get(0);
         String type = content.get(1);
-        int ECTS = (int)((float)Float.valueOf(content.get(2))); //COS NIE DZIALA :(
+        int ECTS = (int)((float)Float.valueOf(content.get(2)));
         String semester = content.get(3);
         String concatLabels = content.get(4);
         String lecturer = content.get(5);
