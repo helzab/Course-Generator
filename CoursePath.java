@@ -163,12 +163,12 @@ public class CoursePath{
         ArrayList<ArrayList<Course>> splitWinterCourses = splitListIntoEqSegments(winterCourses, numberOfWinterSemesters);
         
         coursesPerSemester = new ArrayList<ArrayList<Course>>(){{
-            add(splitSummerCourses.get(0));
             add(splitWinterCourses.get(0));
-            add(splitSummerCourses.get(1));
+            add(splitSummerCourses.get(0));
             add(splitWinterCourses.get(1));
-            add(splitSummerCourses.get(2));
+            add(splitSummerCourses.get(1));
             add(splitWinterCourses.get(2));
+            add(splitSummerCourses.get(2));
             }
         };
 
