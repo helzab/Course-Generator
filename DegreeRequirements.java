@@ -2,16 +2,12 @@ import java.util.ArrayList;
 
 public class DegreeRequirements {
     public int ectsForI;
-    public boolean project;
     public int sumOfOIKP;
     public int sumOfLabels;
-    public boolean proseminary;
     public int ectsForHS;
 
     public DegreeRequirements(){
         this.ectsForI = 54;
-        this.project = true;
-        this.sumOfOIKP = 83; // BEZ OBOWIAZKOW !!
         this.sumOfLabels = 28;
         this.ectsForHS = 5;
     }
@@ -122,5 +118,5 @@ public class DegreeRequirements {
 
     public boolean checkEctsForIEng(ArrayList<Course> c){return false;}
     public boolean checkEctsForKI(ArrayList<Course> c){return false;}
-    public boolean checkEctsForE(ArrayList<Course> courses){return false;}
+    public boolean checkEctsForE(ArrayList<Course> c){return false;}
 }

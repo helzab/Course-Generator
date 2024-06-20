@@ -18,14 +18,14 @@ public class CoursePath{
         else requirements = new Bachelor();
     }
 
-    public boolean checkIfSelected (Course chosenCourse){
+    private boolean checkIfSelected (Course chosenCourse){
         for (Course c: currentCourses)
             if(c.name.equals(chosenCourse.name)) 
                 return true;
         return false;
     }
 
-    public void generatePerType(String type){
+    private void generatePerType(String type){
         Course c;
         Random random = new Random();
         do{
@@ -36,7 +36,7 @@ public class CoursePath{
         currentCourses.add(c);
     }
     
-    public void generatePerLabel(String label){
+    private void generatePerLabel(String label){
         Course c;
         Random random = new Random();
         do{
@@ -47,13 +47,13 @@ public class CoursePath{
         currentCourses.add(c);
     }
 
-    public void generateHumanistic(){ //DZIALA
+    private void generateHumanistic(){ //DZIALA
         while(!requirements.checkEctsForHS(currentCourses)){
             generatePerType("HS");
         }
     }
 
-    public void generateOIKP(){
+    private void generateOIKP(){
         ArrayList<String> OIKPTypes = new ArrayList<String>(){
             {
                 add("K1");
@@ -75,7 +75,7 @@ public class CoursePath{
         }
     }
 
-    public void generateAllTypes(){
+    private void generateAllTypes(){
         while(!requirements.checkEctsForI(currentCourses))
             generatePerType("I1");
         
@@ -104,7 +104,7 @@ public class CoursePath{
         */
     }
 
-    public void generateEngCourses(){
+    private void generateEngCourses(){
         if(student.degree.equals("Bachelor")) return;
 
         while(!requirements.checkEctsForKI(currentCourses))
@@ -120,7 +120,7 @@ public class CoursePath{
         */
     }
 
-    public void generateForLabels(){
+    private void generateForLabels(){
         /* do sprawdzania czy zgadzaja sie wymagania zwiazane z tagami masz metode DegreeRequirements.checkLabels
         i mozesz ja uzyc w while do ktorego wsadzisz fora (generujemy po labelsach dopoki wymaganie nie bedzie
         spelnione)
@@ -141,7 +141,7 @@ public class CoursePath{
             generatePerLabel(l);
     }
 
-    public void generateProject(){
+    private void generateProject(){
         /*poniewaz w generatePerType losowalysmy sobie przedmioty I, K, P to jest duza szansa, ze
         projekt (P) zostal juz wylosowany, takze tutaj mozemy najpierw uzyc metody DegreeRequirements.checkForProject
         i jak zwroci ci prawde tzn ze projekt juz jest czyli nic nie musisz robic hasta la vista bomba
@@ -150,7 +150,7 @@ public class CoursePath{
             generatePerType("P");
     }
 
-    public void generateProseminar(){
+    private void generateProseminar(){
         // to jest gicior
         Random random = new Random();
         ArrayList<Course> allProseminars = allCourses.coursesByTypes.get("PS");
@@ -158,7 +158,7 @@ public class CoursePath{
         currentCourses.add(allProseminars.get(proseminarIndex));
     }
 
-    public void generateE(){
+    private void generateE(){
         /* znowu, to jest przykladowa nazwa
         1) tej metody uzywamy jak Degree = Engineer
         2) losujemy przemioty o TAGU!! (label) "E"; do sprawdzania czy wymagania sa juz spelnione jest metoda
@@ -169,7 +169,7 @@ public class CoursePath{
             generatePerLabel("E");
     }
 
-    public ArrayList<ArrayList<Course>> splitListIntoEqSegments(ArrayList<Course> arrlst, int n){
+    private ArrayList<ArrayList<Course>> splitListIntoEqSegments(ArrayList<Course> arrlst, int n){
         int arrLen = arrlst.size();
         int segLen = (arrlst.size())/n;
         int l = 0, r = segLen;
@@ -190,7 +190,7 @@ public class CoursePath{
         return dividedList;
     }
     
-    public void divIntoSemesters(){
+    private void divIntoSemesters(){
         ArrayList<Course> winterCourses = new ArrayList<Course>();
         ArrayList<Course> summerCourses = new ArrayList<Course>();
 
@@ -225,7 +225,7 @@ public class CoursePath{
         //Bachelor - 3 zimowe, 3 letnie
     }
     
-    public boolean similarLengthOfSemester(){
+    private boolean similarLengthOfSemester(){
         int winterCount = 0, summerCount = 0;
         for(Course c:currentCourses){
             if(c.semester.equals("zimowy")) winterCount++;
@@ -234,7 +234,7 @@ public class CoursePath{
         return ((Math.abs(winterCount-summerCount))<=2);
     }
 
-    public void addCompulsoryCourses(){
+    private void addCompulsoryCourses(){
         ArrayList<Course> O1Courses = allCourses.coursesByTypes.get("O1");
         ArrayList<Course> O2Courses = allCourses.coursesByTypes.get("O2");
         ArrayList<Course> O3Courses = allCourses.coursesByTypes.get("O3");
