@@ -1,4 +1,3 @@
-nazwa przedmiotu;rodzaj;ECTS;semestr;tagi;opiekun;;;
 Antropogeniczne zmiany klimatyczne;HS;3;letni;;	Jan Otop;;;
 Armie i wojny: hybrydowe i konwencjonalne;HS;5;letni;;Jan Otop;;;
 Charakterystyka interakcji społecznych;HS;3;nieokreślony;;Katarzyna Serafińska;;;

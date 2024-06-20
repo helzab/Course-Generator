@@ -79,7 +79,7 @@ public class CoursePath{
         while(!requirements.checkEctsForI(currentCourses))
             generatePerType("I1");
         
-        if(student.degree.equals("I"))
+        if(student.degree.equals("Engineer"))
             while(!requirements.checkEctsForIEng(currentCourses))
                 generatePerType("I.Inż");
 
@@ -171,7 +171,6 @@ public class CoursePath{
     public ArrayList<ArrayList<Course>> splitListIntoEqSegments(ArrayList<Course> arrlst, int n){
         int arrLen = arrlst.size();
         int segLen = (arrlst.size())/n;
-        System.out.println(arrlst.size() + " "+ n+ " " + segLen);
         int l = 0, r = segLen;
         ArrayList<ArrayList<Course>> dividedList = new ArrayList<ArrayList<Course>>();
 
@@ -187,12 +186,6 @@ public class CoursePath{
         ArrayList<Course> curSegment = new ArrayList<Course>(arrlst.subList(l, arrLen));
         dividedList.add(curSegment);
 
-        // for(ArrayList<Course> arrc: dividedList){
-        //     System.out.println("DIV");
-        //     for(Course c:arrc){
-        //         System.out.println(c.name);
-        //     }
-        // }
         return dividedList;
     }
     
@@ -204,7 +197,6 @@ public class CoursePath{
             if(c.semester.equals("zimowy")) winterCourses.add(c);
             else summerCourses.add(c);
         }
-        System.out.println(summerCourses.size() + " " +winterCourses.size() + " " + currentCourses.size());
 
         ArrayList<ArrayList<Course>> splitSummerCourses = splitListIntoEqSegments(summerCourses, 3);
         
@@ -269,19 +261,15 @@ public class CoursePath{
 
             divIntoSemesters();
         }while(!similarLengthOfSemester()); 
-        
-        // for(Course c:currentCourses){
-        //     System.out.println(c.name);
-        // }
 
-        // addCompulsoryCourses();
+        addCompulsoryCourses();
 
-        // for(int i=0; i<coursesPerSemester.size(); i++){
-        //     System.out.println("SEMESTR: "+i);
-        //     for(Course c:coursesPerSemester.get(i)){
-        //         System.out.println(c.name);
-        //     }
-        // }
+        for(int i=0; i<coursesPerSemester.size(); i++){
+            System.out.println("SEMESTR: "+(i+1));
+            for(Course c:coursesPerSemester.get(i)){
+                System.out.println(c.name);
+            }
+        }
 
     }
 } 
