@@ -241,8 +241,15 @@ public class CoursePath{
         return ((Math.abs(winterCount-summerCount))<=2);
     }
 
-    public void addCompulsorySubjects(){
-        // dodajemy do odpowiednich semow przedmioty obowiazkowe
+    public void addCompulsoryCourses(){
+        ArrayList<Course> O1Courses = allCourses.coursesByTypes.get("O1");
+        ArrayList<Course> O2Courses = allCourses.coursesByTypes.get("O2");
+        ArrayList<Course> O3Courses = allCourses.coursesByTypes.get("O3");
+        ArrayList<Course> O4Courses = allCourses.coursesByTypes.get("O4");
+        coursesPerSemester.get(0).addAll(O1Courses);
+        coursesPerSemester.get(1).addAll(O2Courses);
+        coursesPerSemester.get(2).addAll(O3Courses);
+        coursesPerSemester.get(3).addAll(O4Courses);
     }
 
     public void generate(){
@@ -267,13 +274,14 @@ public class CoursePath{
         //     System.out.println(c.name);
         // }
 
-        for(int i=0; i<coursesPerSemester.size(); i++){
-            System.out.println("SEMESTR: "+i);
-            for(Course c:coursesPerSemester.get(i)){
-                System.out.println(c.name);
-            }
-        }
+        // addCompulsoryCourses();
 
-        addCompulsorySubjects();
+        // for(int i=0; i<coursesPerSemester.size(); i++){
+        //     System.out.println("SEMESTR: "+i);
+        //     for(Course c:coursesPerSemester.get(i)){
+        //         System.out.println(c.name);
+        //     }
+        // }
+
     }
 } 
