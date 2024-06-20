@@ -168,25 +168,6 @@ public class CoursePath{
             generatePerLabel("E");
     }
 
-    public void generate(){
-        generateForLabels();
-        generateHumanistic();
-        generateOIKP();
-        generateAllTypes();
-        generateEngCourses();
-        generateProject();
-        generateProseminar();
-        generateE();
-
-        Collections.shuffle(currentCourses);
-
-        for(Course c:currentCourses){
-            System.out.println(c.name);
-        }
-
-        divIntoSemesters();
-    }
-
     public ArrayList<ArrayList<Course>> splitListIntoEqSegments(ArrayList<Course> arrlst, int n){
         int arrLen = arrlst.size();
         int segLen = (arrlst.size())/n;
@@ -245,7 +226,47 @@ public class CoursePath{
 
         if (numberOfWinterSemesters == 4)
             coursesPerSemester.add(splitWinterCourses.get(3));
+
+        // jezeli Degree = Engineer -> dzielimy na 7 semestrow, a jezeli Degree = Bachelor to na 6
+        //Engineer - 4 zimowe, 3 letnie
+        //Bachelor - 3 zimowe, 3 letnie
+    }
+    
+    public boolean similarLengthOfSemester(){
+        int winterCount = 0, summerCount = 0;
+        for(Course c:currentCourses){
+            if(c.semester.equals("zimowy")) winterCount++;
+            else summerCount++;
+        }
+        return ((Math.abs(winterCount-summerCount))<=2);
+    }
+
+    public void addCompulsorySubjects(){
+        // dodajemy do odpowiednich semow przedmioty obowiazkowe
+    }
+
+    public void generate(){
+        do{
+            coursesPerSemester = new ArrayList<ArrayList<Course>>();
+            currentCourses = new ArrayList<Course>();
+            generateForLabels();
+            generateHumanistic();
+            generateOIKP();
+            generateAllTypes();
+            generateEngCourses();
+            generateProject();
+            generateProseminar();
+            generateE();
+
+            Collections.shuffle(currentCourses);
+
+            divIntoSemesters();
+        }while(!similarLengthOfSemester()); 
         
+        // for(Course c:currentCourses){
+        //     System.out.println(c.name);
+        // }
+
         for(int i=0; i<coursesPerSemester.size(); i++){
             System.out.println("SEMESTR: "+i);
             for(Course c:coursesPerSemester.get(i)){
@@ -253,15 +274,6 @@ public class CoursePath{
             }
         }
 
-        // jezeli Degree = Engineer -> dzielimy na 7 semestrow, a jezeli Degree = Bachelor to na 6
-        //Engineer - 4 zimowe, 3 letnie
-        //Bachelor - 3 zimowe, 3 letnie
-    }
-    public void addCompulsorySubjects(){
-        // dodajemy do odpowiednich semow przedmioty obowiazkowe
-    }
-    public void validatePath(){
-        /* to jest imo zbedne, ale jak bedziesz chciala to dodam osobno dla Engineer bo teraz jest
-        tylko valid dla Bachelora */
+        addCompulsorySubjects();
     }
 } 

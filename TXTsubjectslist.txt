@@ -52,7 +52,7 @@ Logika 2;I1;6.0;letni;;Filip Sieczkowski;;;
 Metody biometryczne;I1;6.0;letni;;Rafał Nowak;;;
 Metody implementacji algorytmów;I1;4.0;zimowy;AZ;Artur Kraska;;;
 Metody zarządzania projektami;I1;1.0;letni;;Jan Otop;;;
-Programowanie obiektowe ;I1;6.0;letni;PiPO;Marcin Młotkowski;;;
+Programowanie obiektowe;I1;6.0;letni;PiPO;Marcin Młotkowski;;;
 Programowanie funkcyjne;I1;6.0;zimowy;;Piotr Polesiuk;;;
 Programowanie współbieżne;I1;6.0;zimowy;;Piotr Witkowski;;;
 Rachunek prawdopodobieństwa i statystyka;I1;6.0;letni;RPiS;Witold Karczewski;;;
