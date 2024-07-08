@@ -3,9 +3,9 @@ public class Student {
     public String lastName;
     public String degree;
 
-    public Student(String fN, String lN, String Deg){
-        this.firstName = fN;
-        this.lastName = lN;
-        this.degree = Deg;
+    public Student(String firstName, String lastName, String degree) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.degree = degree;
     }
 }

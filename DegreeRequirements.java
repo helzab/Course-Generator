@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DegreeRequirements {
     public int ectsForI;
@@ -6,117 +8,82 @@ public class DegreeRequirements {
     public int sumOfLabels;
     public int ectsForHS;
 
-    public DegreeRequirements(){
+    public DegreeRequirements() {
         this.ectsForI = 54;
         this.sumOfLabels = 28;
         this.ectsForHS = 5;
     }
 
-    public boolean checkEctsForI(ArrayList<Course> courses){
+    private int sumEctsByType(ArrayList < Course > courses, String type) {
+        return courses.stream()
+            .filter(course -> course.type.equals(type))
+            .mapToInt(course -> course.ECTS)
+            .sum();
+    }
+
+    private int sumEctsByTypes(ArrayList < Course > courses, Set < String > types) {
+        return courses.stream()
+            .filter(course -> types.contains(course.type))
+            .mapToInt(course -> course.ECTS)
+            .sum();
+    }
+
+    private boolean hasRequiredLabels(ArrayList < Course > courses, Set < String > requiredLabels, Set < String > types) {
         int sumOfEcts = 0;
-        for(Course course : courses){
-            if(course.type.equals("I1")){
-                sumOfEcts += course.ECTS;
-            }
-        }
-        return sumOfEcts >= this.ectsForI;
-    }
+        Set < String > foundLabels = new HashSet < > ();
 
-    public boolean checkSumOfOIKP(ArrayList<Course> courses){
-        // BEZ OBOWIAZKOW tak jak sie umawialysmy !! 
-        int sumOfEcts = 0;
-        for(Course course : courses){
-            if(course.type.equals("K1") || course.type.equals("K2") || course.type.equals("P") || course.type.equals("I1")){
-                sumOfEcts += course.ECTS;
-            }
-        }
-        return sumOfEcts >= this.sumOfOIKP;
-    }
-
-    public boolean checkLabels(ArrayList<Course> courses){
-        //sprawdza czy sa juz wszystkie labelsy i czy suma ich sie zgadza
-        int sumOfEcts = 0;
-        boolean RPiS = false;
-        boolean IO = false;
-        boolean ASK = false;
-        boolean PiPO = false;
-        boolean SO = false;
-        boolean SY = false;
-        boolean BD = false;
-        for(Course course : courses){
-            if(course.type.equals("I1") || course.type.equals("K1") || course.type.equals("K2")){
-                if(course.labels.contains("RPiS")){
-                    sumOfEcts += course.ECTS;
-                    RPiS = true;
-                }
-                else if(course.labels.contains("IO")){
-                    sumOfEcts += course.ECTS;
-                    IO = true;
-                }
-                else if(course.labels.contains("ASK")){
-                    sumOfEcts += course.ECTS;
-                    ASK = true;
-                }
-                else if(course.labels.contains("PiPO")){
-                    sumOfEcts += course.ECTS;
-                    PiPO = true;
-                }
-                else if(course.labels.contains("SO")){
-                    sumOfEcts += course.ECTS;
-                    SO = true;
-                }
-                else if(course.labels.contains("SY")){
-                    sumOfEcts += course.ECTS;
-                    SY = true;
-                }
-                else if(course.labels.contains("BD")){
-                    sumOfEcts += course.ECTS;
-                    BD = true;
+        for (Course course: courses) {
+            if (types.contains(course.type)) {
+                for (String label: course.labels) {
+                    if (requiredLabels.contains(label)) {
+                        sumOfEcts += course.ECTS;
+                        foundLabels.add(label);
+                    }
                 }
             }
         }
-
-        return RPiS && IO && ASK && PiPO && SO && SY && BD && sumOfEcts >= this.sumOfLabels;
+        return foundLabels.containsAll(requiredLabels) && sumOfEcts >= this.sumOfLabels;
     }
 
-    public boolean checkEctsForHS(ArrayList<Course> courses){
-        int sumOfEcts = 0;
-        for(Course course : courses){
-            if(course.type.equals("HS")){
-                sumOfEcts += course.ECTS;
-            }
-        }
-        return sumOfEcts >= this.ectsForHS;
+    public boolean checkEctsForI(ArrayList < Course > courses) {
+        return sumEctsByType(courses, "I1") >= this.ectsForI;
     }
 
-    public boolean checkForProseminary(ArrayList<Course> courses){
-        boolean proseminary = false;
-        for(Course course : courses){
-            if(course.type.equals("PS")){
-                proseminary = true;
-            }
-        }
-        return proseminary;
+    public boolean checkSumOfOIKP(ArrayList < Course > courses) {
+        Set < String > oikpTypes = Set.of("K1", "K2", "P", "I1");
+        return sumEctsByTypes(courses, oikpTypes) >= this.sumOfOIKP;
     }
 
-    public boolean checkForProject(ArrayList<Course> courses){
-        boolean project = false;
-        for(Course course : courses){
-            if(course.type.equals("P")){
-                project = true;
-            }
-        }
-        return project;
+    public boolean checkLabels(ArrayList < Course > courses) {
+        Set < String > requiredLabels = Set.of("RPiS", "IO", "ASK", "PiPO", "SO", "SY", "BD");
+        Set < String > labelTypes = Set.of("I1", "K1", "K2");
+        return hasRequiredLabels(courses, requiredLabels, labelTypes);
     }
 
-    public boolean checkAllRequirements(ArrayList <Course> courses){
-        // tu moge jeszce dodac boole dla kazdego z obowiazkow i sprawdzic czy na tej liscie wystepuje juz kazdy z nich
-        // ale nwm czy w tym momencie chcesz juz dodac na liste przedmiotow obowiazki czy to pozniej ykwim
-        return checkEctsForI(courses) && checkSumOfOIKP(courses) && checkSumOfOIKP(courses) && checkEctsForHS(courses) && checkForProseminary(courses)
-        && checkForProject(courses);
+    public boolean checkEctsForHS(ArrayList < Course > courses) {
+        return sumEctsByType(courses, "HS") >= this.ectsForHS;
     }
 
-    public boolean checkEctsForIEng(ArrayList<Course> c){return false;}
-    public boolean checkEctsForKI(ArrayList<Course> c){return false;}
-    public boolean checkEctsForE(ArrayList<Course> c){return false;}
+    public boolean checkForProseminary(ArrayList < Course > courses) {
+        return courses.stream().anyMatch(course -> course.type.equals("PS"));
+    }
+
+    public boolean checkForProject(ArrayList < Course > courses) {
+        return courses.stream().anyMatch(course -> course.type.equals("P"));
+    }
+
+    public boolean checkAllRequirements(ArrayList < Course > courses) {
+        return checkEctsForI(courses) && checkSumOfOIKP(courses) && checkLabels(courses) && checkEctsForHS(courses) &&
+            checkForProseminary(courses) && checkForProject(courses);
+    }
+
+    public boolean checkEctsForIEng(ArrayList < Course > c) {
+        return false;
+    }
+    public boolean checkEctsForKI(ArrayList < Course > c) {
+        return false;
+    }
+    public boolean checkEctsForE(ArrayList < Course > c) {
+        return false;
+    }
 }

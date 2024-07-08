@@ -1,107 +1,76 @@
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
-public class Engineer extends DegreeRequirements{
-    public int ectsForIEng;
-    public int ectsForKI;
-    public int sumOfOIKP;
-    public int ectsForE;
+public class Engineer extends DegreeRequirements {
+    private static final int ECTS_FOR_I_ENG = 12;
+    private static final int ECTS_FOR_KI = 10;
+    private static final int SUM_OF_OIKP = 113;
+    private static final int ECTS_FOR_E = 2;
 
-    public Engineer(){
+    public Engineer() {
         super();
-        this.ectsForIEng = 12;
-        this.ectsForKI = 10;
-        this.sumOfOIKP = 113; //BEZ OBOWIAZKOW !!
-        this.ectsForE = 2;
     }
 
     @Override
-    public boolean checkSumOfOIKP(ArrayList<Course> courses){
-        // BEZ OBOWIAZKOW tak jak sie umawialysmy !!
-        int sumOfEcts = 0;
-        for(Course course : courses){
-            if(course.type.equals("K1") || course.type.equals("K2") || course.type.equals("P") || course.type.equals("I1") || course.type.equals("KI") || course.type.equals("I.Inż")){
-                sumOfEcts += course.ECTS;
-            }
-        }
-        return sumOfEcts >= this.sumOfOIKP;
-    }
-
-    public boolean checkLabels(ArrayList<Course> courses){
-        int sumOfEcts = 0;
-        boolean RPiS = false;
-        boolean IO = false;
-        boolean ASK = false;
-        boolean PiPO = false;
-        boolean SO = false;
-        boolean SY = false;
-        boolean BD = false;
-        for(Course course : courses){
-            //zwiekszona pula przedmiotow
-            if(course.type.equals("I1") || course.type.equals("K1") || course.type.equals("K2") || course.type.equals("I.Inż") || course.type.equals("KI")){
-                if(course.labels.contains("RPiS")){
-                    sumOfEcts += course.ECTS;
-                    RPiS = true;
-                }
-                else if(course.labels.contains("IO")){
-                    sumOfEcts += course.ECTS;
-                    IO = true;
-                }
-                else if(course.labels.contains("ASK")){
-                    sumOfEcts += course.ECTS;
-                    ASK = true;
-                }
-                else if(course.labels.contains("PiPO")){
-                    sumOfEcts += course.ECTS;
-                    PiPO = true;
-                }
-                else if(course.labels.contains("SO")){
-                    sumOfEcts += course.ECTS;
-                    SO = true;
-                }
-                else if(course.labels.contains("SY")){
-                    sumOfEcts += course.ECTS;
-                    SY = true;
-                }
-                else if(course.labels.contains("BD")){
-                    sumOfEcts += course.ECTS;
-                    BD = true;
-                }
-            }
-        }
-
-        return RPiS && IO && ASK && PiPO && SO && SY && BD && sumOfEcts >= this.sumOfLabels;
-    }
-
-    @Override 
-    public boolean checkEctsForIEng(ArrayList<Course> courses){
-        int sumOfEcts = 0;
-        for(Course course : courses){
-            if(course.type.equals("I.Inż")){
-                sumOfEcts += course.ECTS;
-            }
-        }
-        return sumOfEcts >= this.ectsForIEng;
-    }    
-
-    @Override
-    public boolean checkEctsForKI(ArrayList<Course> courses){
-        int sumOfEcts = 0;
-        for(Course course : courses){
-            if(course.type.equals("KI")){
-                sumOfEcts += course.ECTS;
-            }
-        }
-        return sumOfEcts >= this.ectsForKI;
+    public boolean checkSumOfOIKP(ArrayList < Course > courses) {
+        return checkSumOfEcts(courses, Set.of("K1", "K2", "P", "I1", "KI", "I.Inż"), SUM_OF_OIKP);
     }
 
     @Override
-    public boolean checkEctsForE(ArrayList<Course> courses){
+    public boolean checkEctsForIEng(ArrayList < Course > courses) {
+        return checkSumOfEcts(courses, Set.of("I.Inż"), ECTS_FOR_I_ENG);
+    }
+
+    @Override
+    public boolean checkEctsForKI(ArrayList < Course > courses) {
+        return checkSumOfEcts(courses, Set.of("KI"), ECTS_FOR_KI);
+    }
+
+    @Override
+    public boolean checkEctsForE(ArrayList < Course > courses) {
+        return checkSumOfEctsForLabels(courses, Set.of("E"), ECTS_FOR_E);
+    }
+
+    public boolean checkLabels(ArrayList < Course > courses) {
+        Set < String > requiredLabels = Set.of("RPiS", "IO", "ASK", "PiPO", "SO", "SY", "BD");
         int sumOfEcts = 0;
-        for(Course course : courses){
-            if(course.labels.contains("E")){
+        Set < String > foundLabels = new HashSet < > ();
+
+        for (Course course: courses) {
+            if (Set.of("I1", "K1", "K2", "I.Inż", "KI").contains(course.type)) {
+                for (String label: requiredLabels) {
+                    if (course.labels.contains(label)) {
+                        sumOfEcts += course.ECTS;
+                        foundLabels.add(label);
+                    }
+                }
+            }
+        }
+
+        return foundLabels.containsAll(requiredLabels) && sumOfEcts >= this.sumOfLabels;
+    }
+
+    private boolean checkSumOfEcts(ArrayList < Course > courses, Set < String > types, int requiredEcts) {
+        int sumOfEcts = 0;
+        for (Course course: courses) {
+            if (types.contains(course.type)) {
                 sumOfEcts += course.ECTS;
             }
         }
-        return sumOfEcts >= this.ectsForE;
+        return sumOfEcts >= requiredEcts;
+    }
+
+    private boolean checkSumOfEctsForLabels(ArrayList < Course > courses, Set < String > labels, int requiredEcts) {
+        int sumOfEcts = 0;
+        for (Course course: courses) {
+            for (String label: labels) {
+                if (course.labels.contains(label)) {
+                    sumOfEcts += course.ECTS;
+                    break;
+                }
+            }
+        }
+        return sumOfEcts >= requiredEcts;
     }
 }

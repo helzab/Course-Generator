@@ -1,11 +1,9 @@
-public class Bachelor extends DegreeRequirements{
+public class Bachelor extends DegreeRequirements {
     public boolean indvProject;
 
-    public Bachelor(){
+    public Bachelor() {
         super();
         this.indvProject = true;
-        this.sumOfOIKP = 83; // BEZ OBOWIAZKOW !!
+        this.sumOfOIKP = 83;
     }
-    // nie robie metody dla tego czy indywidualny projekt jest zrobiony bo nie ma osobno
-    //takich projektow zaznaczonych w tabelce cnie, takze idek ktore sa grpowe a ktore indywid.
 }

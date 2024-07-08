@@ -5,10 +5,10 @@ public class Course {
     public String type;
     public int ECTS;
     public String semester;
-    public ArrayList<String> labels;
+    public ArrayList < String > labels;
     public String lecturer;
 
-    public Course(String name, String type, int ECTS, String s, ArrayList<String>labels, String lecturer){
+    public Course(String name, String type, int ECTS, String s, ArrayList < String > labels, String lecturer) {
         this.name = name;
         this.type = type;
         this.semester = s;
